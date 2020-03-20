@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-//	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 //	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
@@ -32,5 +32,40 @@ dependencies {
 }
 
 test {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
+
+task buildDocker(type: Exec) {
+
+    workingDir "$projectDir/docker-dir/postgres-meta-bug"
+
+    if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+        // No docker for Kris
+    } else {
+        commandLine 'bash', '-c', 'docker build -t postgres-meta-bug .'
+    }
+}
+
+build.dependsOn buildDocker
+
+/*
+task cleanDocker(type: Exec) {
+	metaBugImage = "postgres-meta-bug"
+
+	if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+		// No docker for Kris
+	} else {
+		commandLine 'bash', '-c', 'docker rm "$(docker ps -a -q)"'
+		commandLine 'bash', '-c', 'docker rmi $metaBugImage'
+	}
+}
+
+task myPrebuildTask(type: Exec) {
+	workingDir = "$projectDir"
+	if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+		// No docker for Kris
+	} else {
+		commandLine 'bash', '-c', 'docker '
+	}
+}
+*/

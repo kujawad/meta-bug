@@ -1,36 +1,75 @@
-.wrapper {
-    margin-top: 80px;
-    margin-bottom: 20px;
+body{
+background: url('../images/loginPageBackground.png');
+background-repeat:no-repeat;
+background-size:auto;
+font-family:"Montserrat";
 }
-
-.form-signin {
-    max-width: 420px;
-    padding: 30px 38px 66px;
-    margin: 0 auto;
-    background-color: #eee;
-    border: 3px dotted rgba(0, 0, 0, 0.1);
+.loginArea{
+position: absolute;
+  width: 400px;
+  height: 250px;
+  z-index: 15;
+  top: 50%;
+  left: 50%;
+  margin: -200px 0 0 -200px;
+  background: #F2F3F4;
+  border-radius: 25px;
+    box-shadow: 5px 5px 10px #888888;
 }
-
-.form-signin-heading {
-    text-align: center;
-    margin-bottom: 30px;
 }
-
-.form-control {
-    position: relative;
-    font-size: 16px;
-    height: auto;
-    padding: 10px;
+.loginDataArea{
+padding:20px;
 }
-
-input[type="text"] {
-    margin-bottom: 0px;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+.loginData{
+float:left;
+width:100%;
+text-align:left;
+margin-top:10px;
+margin-bottom:10px;
 }
-
-input[type="password"] {
-    margin-bottom: 20px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
+.loginData input{
+width:100%;
+}
+.loginDataSubmit{
+float:left;
+width:100%;
+text-align:left;
+margin-top:10px;
+margin-bottom:10px;
+}
+.loginAreaTitle{
+text-align:center;
+}
+.loginPageTitle{
+color:white;
+font-size:78px;
+}
+.loginPageTitleArea{
+text-align:center;
+padding:20px;
+}
+.loginLabel{
+width:100%;
+float:left;
+text-align:left;
+}
+.loginLabelInput{
+width:100%;
+float:left;
+}
+.loginDataHref{
+float:left;
+width:100%;
+text-align:left;
+margin-top:10px;
+margin-bottom:10px;
+}
+.loginDataSubmit input[type=submit]{
+height: 40px;
+color: rgba(255,255,255,0.8);
+border: 0;
+background: linear-gradient(180deg, rgba(0,99,255,1) 0%, rgba(0,168,255,1) 100%, rgba(9,102,121,1) 100%);
+font-size:20px;
+border-radius:5px;
+width:50%;
 }

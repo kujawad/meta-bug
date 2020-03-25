@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/index.css" type="text/css">
+</head>
+<body>
+<style type="text/css"></style>
+
+<div class="loginPageTitleArea">
+    <h1 class="loginPageTitle">Meta-Bug</h1>
+</div>
+<div class="loginArea">
+    <div class="loginDataArea" style="padding:20px">
+        <div class="loginData">
+            <div class="loginLabel">Login:</div>
+            <div class="loginLabelInput">
+                <input id="login" type="text">
+            </div>
+        </div>
+        <div class="loginData">
+            <div class="loginLabel">Password:</div>
+            <div class="loginLabelInput">
+                <input id="password" type="password">
+            </div>
+        </div>
+        <div class="loginDataSubmit">
+            <input class="button" type="submit" value="Log in">
+        </div>
+        <form method="get" th:action="@{/register}">
+            <div class="loginDataHref">
+                <a th:href="@{/register}">Sign up</a>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

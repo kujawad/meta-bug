@@ -7,10 +7,10 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class IndexController {
 
-    @GetMapping(value = "/")
-    public ModelAndView login() {
+    @GetMapping(value = {"/", "/login"})
+    public ModelAndView index() {
         final ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("login");
+        modelAndView.setViewName("index");
         return modelAndView;
     }
 }

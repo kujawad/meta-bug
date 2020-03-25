@@ -11,7 +11,6 @@ public class RegisterController {
     public ModelAndView register() {
         final ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("register");
-        modelAndView.addObject("user", "user");
         return modelAndView;
     }
 }

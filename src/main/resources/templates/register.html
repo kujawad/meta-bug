@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Registration Form</title>
+    <title>Register</title>
     <link rel="stylesheet" th:href="@{/css/register.css}" type="text/css"/>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -17,8 +17,7 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <form action="#" autocomplete="off" class="form-horizontal"
-                  method="post" role="form" th:action="@{/registration}"
-                  th:object="${user}">
+                  method="post" role="form" th:action="@{/register}">
                 <h2>Registration Form</h2>
                 <div class="form-group">
                     <div class="col-sm-9">

@@ -1,10 +1,35 @@
 databaseChangeLog:
   - changeSet:
       id: 1
-      author: daniel-kujawa
+      author: adam-kukuc
       changes:
         - createTable:
             tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: tickets
             columns:
               - column:
                   name: id
@@ -14,25 +39,24 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: username
+                  name: title
                   type: varchar(255)
                   constraints:
                     nullable: false
               - column:
-                  name: password
+                  name: description
                   type: varchar(255)
                   constraints:
                     nullable: false
-  - changeSet:
-      id: 2
-      author: daniel-kujawa
-      changes:
-        - insert:
-            tableName: users
-            columns:
               - column:
-                  name: username
-                  value: "user"
+                   name: author_id
+                   type: int
+                   constraints:
+                     foreignKey: true
+                     nullable: false
               - column:
-                  name: password
-                  value: "pass"
+                   name: developer_id
+                   type: int
+                   constraints:
+                     foreignKey: true
+                     nullable: false

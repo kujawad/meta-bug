@@ -69,3 +69,46 @@ databaseChangeLog:
                    constraints:
                      foreignKey: true
                      nullable: false
+
+  - changeSet:
+      id: 2
+      author: krzysztof-jezewski
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+        - dropColumn:
+            columnName: author_id
+            tableName: tickets
+        - dropColumn:
+            columnName: developer_id
+            tableName: tickets
+        - addColumn:
+            tableName: tickets
+            columns:
+              - column:
+                  name: author_id
+                  type: ${uuid_type}
+                  constraints:
+                    foreignKey: true
+                    nullable: false
+              - column:
+                  name: developer_id
+                  type: ${uuid_type}
+                  constraints:
+                    foreignKey: true
+                    nullable: true
+        - dropNotNullConstraint:
+            columnName: description
+            tableName: tickets
+        - renameTable:
+            newTableName: user
+            oldTableName: users
+        - renameTable:
+            newTableName: ticket
+            oldTableName: tickets

@@ -1,0 +1,8 @@
+@import "./register.css";
+@import "./index.css";
+
+body {
+    background: url('../images/loginPageBackground.png') no-repeat;
+    background-size: cover;
+    font-family: "Montserrat", monospace;
+}

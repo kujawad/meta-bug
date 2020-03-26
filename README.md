@@ -1,4 +1,5 @@
 # meta-bug
+[![Build Status](https://travis-ci.org/l14D35/meta-bug.svg?branch=master)](https://travis-ci.org/l14D35/meta-bug)
 
 ## Steps to keep the code tidy
 ### Maintain the code convention

@@ -1,16 +1,10 @@
-body {
-    background: url('../images/loginPageBackground.png') no-repeat;
-    background-size: auto;
-    font-family: "Montserrat", monospace;
-}
-
-.loginArea {
+.loginArea{
     width: 400px;
     height: 250px;
-    margin: 0 auto;
     background: #F2F3F4;
     border-radius: 25px;
     box-shadow: 5px 5px 10px #888888;
+    margin: 0 auto;
 }
 
 .loginDataArea {
@@ -25,33 +19,13 @@ body {
     margin-bottom: 10px;
 }
 
-.loginData input {
-    width: 100%;
-}
-
-.loginDataSubmit {
-    float: left;
-    width: 95%;
-    text-align: left;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
 .button {
     cursor:pointer;
 }
 
-.loginAreaTitle {
-    text-align: center;
-}
-
-.loginPageTitle {
-    color: white;
-    font-size: 78px;
-}
-
-.loginPageTitleArea {
-    text-align: center;
+.loginData input{
+	width:100%;
+	border: 1px solid black;
 }
 
 .loginLabel {
@@ -71,6 +45,14 @@ body {
     text-align: left;
 }
 
+.loginDataSubmit {
+    float: left;
+    width: 95%;
+    text-align: left;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .loginDataSubmit input[type=submit] {
     height: 40px;
     color: rgba(255, 255, 255, 0.8);
@@ -79,4 +61,31 @@ body {
     font-size: 20px;
     border-radius: 5px;
     width: 50%;
+}
+
+.loginPageTitle {
+    color: white;
+    font-size: 78px;
+}
+
+.loginPageTitleArea {
+    text-align: center;
+}
+
+@media(max-width:980px){
+	.loginArea{
+		width:60%;
+	}
+}
+
+@media(max-width:500px){
+	.loginArea{
+		width:100%;
+	}
+}
+
+@media(max-width:450px){
+	.loginPageTitle{
+		font-size:50px;
+	}
 }

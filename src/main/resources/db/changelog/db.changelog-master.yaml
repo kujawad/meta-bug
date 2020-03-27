@@ -7,7 +7,7 @@ databaseChangeLog:
       name: uuid_function
       value: uuid_generate_v4()
       dbms: postgresql
-  - logicalFilePath: classpath:db/changelog/db.changelog-master.yaml 
+  - logicalFilePath: classpath:db/changelog/db.changelog-master.yaml
   - changeSet:
       id: 1
       author: adam-kukuc
@@ -113,3 +113,26 @@ databaseChangeLog:
         - renameTable:
             newTableName: ticket
             oldTableName: tickets
+
+  - changeSet:
+      id: 3
+      author: krzysztof-jezewski
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: author_id
+            baseTableName: ticket
+            referencedColumnNames: id
+            referencedTableName: user
+            constraintName: fk_ticket_author
+        - addForeignKeyConstraint:
+            baseColumnNames: developer_id
+            baseTableName: ticket
+            referencedColumnNames: id
+            referencedTableName: user
+            constraintName: fk_ticket_developer
+        - addUniqueConstraint:
+            columnNames: name
+            tableName: user
+        - addUniqueConstraint:
+            columnNames: email
+            tableName: user

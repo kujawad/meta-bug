@@ -1,0 +1,106 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: adam-kukuc
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  defaultValueComputed: random_uuid()
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: tickets
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                   name: author_id
+                   type: int
+                   constraints:
+                     foreignKey: true
+                     nullable: false
+              - column:
+                   name: developer_id
+                   type: int
+                   constraints:
+                     foreignKey: true
+                     nullable: false
+
+  - changeSet:
+      id: 2
+      author: krzysztof-jezewski
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+        - dropColumn:
+            columnName: author_id
+            tableName: tickets
+        - dropColumn:
+            columnName: developer_id
+            tableName: tickets
+        - addColumn:
+            tableName: tickets
+            columns:
+              - column:
+                  name: author_id
+                  type: uuid
+                  constraints:
+                    foreignKey: true
+                    nullable: false
+              - column:
+                  name: developer_id
+                  type: uuid
+                  constraints:
+                    foreignKey: true
+                    nullable: true
+        - dropNotNullConstraint:
+            columnName: description
+            tableName: tickets
+        - renameTable:
+            newTableName: user
+            oldTableName: users
+        - renameTable:
+            newTableName: ticket
+            oldTableName: tickets

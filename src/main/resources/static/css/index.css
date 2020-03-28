@@ -1,4 +1,4 @@
-.loginArea{
+.loginArea {
     width: 400px;
     height: 250px;
     background: #F2F3F4;
@@ -20,12 +20,12 @@
 }
 
 .button {
-    cursor:pointer;
+    cursor: pointer;
 }
 
-.loginData input{
-	width:100%;
-	border: 1px solid black;
+.loginData input {
+    width: 100%;
+    border: 1px solid black;
 }
 
 .loginLabel {
@@ -35,19 +35,13 @@
 }
 
 .loginLabelInput {
-    width: 95%;
+    width: 100%;
     float: left;
 }
 
 .loginDataHref {
     float: left;
     width: 100%;
-    text-align: left;
-}
-
-.loginDataSubmit {
-    float: left;
-    width: 95%;
     text-align: left;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -70,22 +64,23 @@
 
 .loginPageTitleArea {
     text-align: center;
+    padding:20px;
 }
 
-@media(max-width:980px){
-	.loginArea{
-		width:60%;
-	}
+@media (max-width: 980px) {
+    .loginArea {
+        width: 60%;
+    }
 }
 
-@media(max-width:500px){
-	.loginArea{
-		width:100%;
-	}
+@media (max-width: 500px) {
+    .loginArea {
+        width: 100%;
+    }
 }
 
-@media(max-width:450px){
-	.loginPageTitle{
-		font-size:50px;
-	}
+@media (max-width: 450px) {
+    .loginPageTitle {
+        font-size: 50px;
+    }
 }

@@ -5,6 +5,9 @@ deploy:
   provider: heroku
   api_key:
     secure: GVXDJm6wEZJjZe0tFlIG4YzFmJWyay+wimPQxUr9DSQO0n1zwzyLrPgNCFuP5hlzKbWlIYIOZGW+FQrL7yvALTG/M+HT0AEy1VaA/WyVTliy+ZLehzIwJSoIS3UU/uIOgtg3VZD9joxV7shlawXlsAu27GUfQZi8LxMI0PCiw20q5a2cHewDDnt4h3pUjc46+p9i7ghLUHf4X2CoTYJcWeXfNoBsstk4uhSi6PUcIXmORCPF9amnXS63J3Nvn8FuxbapU9TWmM3djkX2HVj8epst4YeLrfpUimJvCBfp3BWiS66kN8BPxosT8E4EbQ/wofoUrgT9JyyrmxtkDdbC5O2wYGmsEWV1vUyNfSCfY4v6NqXRZUawB+p8INRUwHN9DcgI6yILoAzi/yWSOS8PomqY0dvrkLcz+7w573Cwp5RE86jBuuJFzX6rJuG/RdrCd+nuSyEm+QjkROGGHP5kLZfjWk7Ut+kDXIGSMfhw4bwYgPbbCgWirdAL3IokscErIUxcbIEmhfDkivfNdUJPiObQAHjg2tuE5+7MUcDh25DVUSBbv4E7DG+blkak3GUws+rI8nH3cpRimBN9+B8I0dqSWTZ6qm6sdDnnHpArG8TcP16TW/dHbekhk5zKG/RJKnioDSKgoGmEziBo7f+55yl3FtesjKwAOiC/LWLLHSk=
+  app:
+    master: meta-bug
+    develop: dev-meta-bug
 before_script:
   - psql -c 'CREATE DATABASE "meta-bug";' -U postgres
   - psql -d "meta-bug" -c "CREATE USER dev WITH PASSWORD 'dev';" -U postgres

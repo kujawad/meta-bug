@@ -49,7 +49,6 @@ public class RegisterController {
         if (isCorrect(userDto, bindingResult, modelAndView)) {
             userService.save(userDto);
             modelAndView.addObject("successMessage", "User has been registered successfully");
-            modelAndView.addObject("user", new User());
             modelAndView.setViewName("index");
             LOGGER.debug("Registering user account with information: {}", userDto);
         }

@@ -36,4 +36,8 @@ public class UserService {
         user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         userRepository.save(user);
     }
+
+    public boolean isMatchingPassword (final String givenPassword, final String encodedPassword) {
+        return bCryptPasswordEncoder.matches(givenPassword, encodedPassword);
+    }
 }

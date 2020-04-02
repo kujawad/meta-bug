@@ -24,6 +24,14 @@
     <span th:text="${successMessage}">message</span>
 </div>
 
+<div class="alert alert-warning alert-dismissible fade show" role="alert"
+     th:if="${warningMessage != null}">
+    <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <span th:text="${warningMessage}">message</span>
+</div>
+
 <div class="loginPageTitleArea">
     <h1 class="loginPageTitle">Meta-Bug</h1>
 </div>

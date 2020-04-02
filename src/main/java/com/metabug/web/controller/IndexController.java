@@ -18,12 +18,10 @@ import javax.validation.Valid;
 public class IndexController {
 
     private final UserService userService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public IndexController(final UserService userService, final BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public IndexController(final UserService userService) {
         this.userService = userService;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @GetMapping(value = {"/", "/login"})
@@ -48,7 +46,7 @@ public class IndexController {
         final User user = userService.findUserByLogin(loginDto.getLogin());
 
         if(user != null) {
-            if(bCryptPasswordEncoder.matches(loginDto.getPassword(), user.getPassword())) {
+            if(userService.isMatchingPassword(loginDto.getPassword(), user.getPassword())) {
                 request.getSession().setAttribute("LOGGED_USER", loginDto.getLogin());
                 modelAndView.setViewName("home");
             } else {

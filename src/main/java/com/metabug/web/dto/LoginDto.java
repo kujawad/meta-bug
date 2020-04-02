@@ -19,7 +19,7 @@ public class LoginDto {
 
     @Override
     public String toString() {
-        return "UserDto{" +
+        return "LoginDto{" +
                 "login='" + login + '\'' +
                 '}';
     }

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
->
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Login</title>
     <meta content="width=device-width,initial-scale=1" name="viewport">
@@ -88,17 +87,6 @@
                                                required="required"
                                                th:field="*{title}"
                                                type="text">
-                                    </div>
-                                    <div class="discussion-topic-header p-0 p-md-2">
-                                        <input aria-label="Author email or login"
-                                               autocomplete="off"
-                                               autofocus="autofocus"
-                                               class="form-control input-lg input-block input-contrast required title js-session-resumable js-quick-submit"
-                                               id="author" name="author"
-                                               placeholder="Author email or login"
-                                               required="required" type="text"
-                                               th:field="*{author}"
-                                               value="">
                                     </div>
                                     <div class="write-content js-write-bucket tooltipped tooltipped-ne tooltipped-no-delay tooltipped-align-left-1 hide-reaction-suggestion upload-enabled mx-0 mt-2 mb-2 mx-md-2 hx_sm-hide-drag-drop js-reaction-suggestion"
                                          data-reaction-markup="Would you like to leave a reaction instead?">

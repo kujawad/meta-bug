@@ -6,6 +6,9 @@ import com.metabug.web.dto.TicketDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
+import java.util.List;
+
 @Service
 public class TicketService {
     private TicketRepository ticketRepository;
@@ -18,22 +21,17 @@ public class TicketService {
         this.userService = userService;
     }
 
-    public Ticket findUserByEmail(final String title) {
-        return ticketRepository.findByTitle(title);
+    public List<Ticket> findAll() {
+        return ticketRepository.findAll();
     }
 
-    public void save(final TicketDto ticketDto) {
+    public void save(final TicketDto ticketDto, final Principal principal) {
         final Ticket ticket = new Ticket();
         ticket.setTitle(ticketDto.getTitle());
         ticket.setDescription(ticketDto.getDescription());
 
-        final String author = ticketDto.getAuthor();
-
-        if (userService.findUserByLogin(author) != null) {
-            ticket.setAuthorId(userService.findUserByLogin(author).getId());
-        } else {
-            ticket.setAuthorId(userService.findUserByEmail(author).getId());
-        }
+        //TODO: check if users exists? just in case?
+        ticket.setAuthorId(userService.findUserByLogin(principal.getName()).getId());
 
         ticketRepository.save(ticket);
     }

@@ -17,16 +17,11 @@ public class TicketDto {
     @Size(min = 1)
     private String description;
 
-    @NotNull
-    @Size(min = 1)
-    private String author;
-
     @Override
     public String toString() {
         return "TicketDto{" +
                 "title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", author='" + author + '\'' +
                 '}';
     }
 }

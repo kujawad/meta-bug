@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
     private UserRepository userRepository;
@@ -28,6 +30,10 @@ public class UserService {
         return userRepository.findByLogin(login);
     }
 
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
     public void save(final UserDto userDto) {
         final User user = new User();
         user.setLogin(userDto.getLogin());
@@ -37,7 +43,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public boolean isMatchingPassword (final String givenPassword, final String encodedPassword) {
+    public boolean isMatchingPassword(final String givenPassword, final String encodedPassword) {
         return bCryptPasswordEncoder.matches(givenPassword, encodedPassword);
     }
 }

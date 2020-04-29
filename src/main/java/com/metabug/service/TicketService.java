@@ -2,7 +2,9 @@ package com.metabug.service;
 
 import com.metabug.persistence.dao.TicketRepository;
 import com.metabug.persistence.model.Ticket;
+import com.metabug.persistence.model.User;
 import com.metabug.web.dto.TicketDto;
+import com.metabug.web.dto.TicketViewDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,14 +27,38 @@ public class TicketService {
         return ticketRepository.findAll();
     }
 
+    public Ticket findById(final long id) {
+        return ticketRepository.findById(id);
+    }
+
     public void save(final TicketDto ticketDto, final Principal principal) {
         final Ticket ticket = new Ticket();
         ticket.setTitle(ticketDto.getTitle());
         ticket.setDescription(ticketDto.getDescription());
 
-        //TODO: check if users exists? just in case?
         ticket.setAuthorId(userService.findUserByLogin(principal.getName()).getId());
 
         ticketRepository.save(ticket);
+    }
+
+    public void assignTicket(final long id, final String login) {
+        final Ticket ticket = ticketRepository.findById(id);
+        final User user = userService.findUserByLogin(login);
+        ticket.setDeveloperId(user.getId());
+    }
+
+    public TicketViewDto toTicketView(final Ticket ticket) {
+        final TicketViewDto ticketViewDto = new TicketViewDto();
+        final String author = userService.findUserById(ticket.getAuthorId()).getLogin();
+        String developer = null;
+        if(ticket.getDeveloperId() != null) {
+            developer = userService.findUserById(ticket.getDeveloperId()).getLogin();
+        }
+        ticketViewDto.setId(ticket.getId());
+        ticketViewDto.setAuthor(author);
+        ticketViewDto.setDeveloper(developer);
+        ticketViewDto.setTitle(ticket.getTitle());
+        ticketViewDto.setDescription(ticket.getDescription());
+        return ticketViewDto;
     }
 }

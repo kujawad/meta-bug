@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -30,6 +31,10 @@ public class UserService {
         return userRepository.findByLogin(login);
     }
 
+    public User findUserById(final UUID id) {
+        return userRepository.findUserById(id);
+    }
+
     public List<User> findAll() {
         return userRepository.findAll();
     }
@@ -41,9 +46,5 @@ public class UserService {
         user.setRole(Role.USER);
         user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         userRepository.save(user);
-    }
-
-    public boolean isMatchingPassword(final String givenPassword, final String encodedPassword) {
-        return bCryptPasswordEncoder.matches(givenPassword, encodedPassword);
     }
 }

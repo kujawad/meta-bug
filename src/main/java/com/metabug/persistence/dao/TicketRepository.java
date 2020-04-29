@@ -12,4 +12,6 @@ public interface TicketRepository extends JpaRepository<Ticket, UUID> {
     List<Ticket> findAllByTitle(final String title);
 
     List<Ticket> findAll();
+
+    Ticket findById(final long id);
 }

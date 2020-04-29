@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>New Ticket</title>
+    <title>View Ticket</title>
     <meta content="width=device-width,initial-scale=1" name="viewport">
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap"
           rel="stylesheet">
@@ -66,24 +66,46 @@
     <div class="repository-content ">
         <div class="js-check-all-container" data-pjax="">
             <form accept-charset="UTF-8" action=""
-                  class="new_issue" id="new_issue" method="post"
-                  th:action="@{/add-ticket}"
-                  th:object="${ticketDto}"><input name="authenticity_token"
-                                                  type="hidden">
+                  class="view_ticket" id="view_ticket" method="post"
+                  th:action="@{/ticket/{path}(path=${id})}"
+                  th:object="${ticketViewDto}">
                 <div class="mt-3" data-issue-and-pr-hovercards-enabled=""
                      data-project-hovercards-enabled="">
                     <div class="gutter-condensed gutter-lg d-flex flex-column flex-md-row">
                         <div class="flex-shrink-0 col-12 col-md-9 mb-5 mb-md-0">
                             <div class="timeline-comment-wrapper timeline-new-comment composer composer-responsive">
                                 <div class="timeline-comment">
+                                    <div class="discussion p-0 p-md-2">
+                                        <input aria-label="Title"
+                                               autocomplete="off"
+                                               autofocus="autofocus"
+                                               disabled="disabled"
+                                               class="form-control input-lg input-block input-contrast required title js-session-resumable js-quick-submit"
+                                               id="issue_author"
+                                               name="issue[authorId]"
+                                               required="required"
+                                               th:field="*{author}"
+                                               type="text">
+                                    </div>
                                     <div class="discussion-topic-header p-0 p-md-2">
                                         <input aria-label="Title"
                                                autocomplete="off"
                                                autofocus="autofocus"
+                                               disabled="disabled"
+                                               class="form-control input-lg input-block input-contrast required title js-session-resumable js-quick-submit"
+                                               id="issue_developer"
+                                               name="issue[developerId]"
+                                               th:field="*{developer}"
+                                               type="text">
+                                    </div>
+                                    <div class="discussion-topic-header p-0 p-md-2">
+                                        <input aria-label="Title"
+                                               autocomplete="off"
+                                               autofocus="autofocus"
+                                               disabled="disabled"
                                                class="form-control input-lg input-block input-contrast required title js-session-resumable js-quick-submit"
                                                id="issue_title"
                                                name="issue[title]"
-                                               placeholder="Title"
                                                required="required"
                                                th:field="*{title}"
                                                type="text">
@@ -95,14 +117,14 @@
                                                         class="form-control input-contrast comment-form-textarea js-comment-field js-paste-markdown js-task-list-field js-quick-submit js-size-to-fit js-session-resumable js-saved-reply-shortcut-comment-field"
                                                         id="issue_body"
                                                         name="issue[body]"
-                                                        placeholder="Leave a description"
                                                         required="required"
+                                                        disabled="disabled"
                                                         th:field="*{description}"></textarea>
                                     </div>
                                     <div class="flex-items-center flex-justify-end mx-2 mb-2 px-0 d-none d-md-flex">
                                         <button class="btn btn-primary"
                                                 type="submit">
-                                            Submit new issue
+                                            Assign to me
                                         </button>
                                     </div>
                                 </div>

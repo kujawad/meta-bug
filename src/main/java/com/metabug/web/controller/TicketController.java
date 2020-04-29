@@ -2,18 +2,17 @@ package com.metabug.web.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.metabug.persistence.model.Ticket;
 import com.metabug.service.TicketService;
-import com.metabug.service.UserService;
 import com.metabug.web.dto.TicketDto;
+import com.metabug.web.dto.TicketViewDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
@@ -55,5 +54,27 @@ public class TicketController {
     public String getTickets() throws JsonProcessingException {
         final ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(ticketService.findAll());
+    }
+
+    @GetMapping(value = {"/ticket/{id}"})
+    public String viewTicket(@PathVariable final long id, final Model model) {
+        final Ticket ticket = ticketService.findById(id);
+        if(ticket == null) {
+            return "redirect:/home";
+        }
+
+        final TicketViewDto ticketViewDto = ticketService.toTicketView(ticket);
+        model.addAttribute("ticketViewDto", ticketViewDto);
+        return "view-ticket";
+    }
+
+    @PostMapping(value = {"/ticket/{id}"}, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public String assignTicket(final TicketViewDto ticketViewDto, final Principal principal) {
+        final Ticket ticket = ticketService.findById(ticketViewDto.getId());
+        if (ticket.getDeveloperId() == null) {
+            ticketService.assignTicket(ticket.getId(), principal.getName());
+            LOGGER.info("Assigned ticket: " + ticket.getId() + " to " + principal.getName());
+        }
+        return "redirect:/ticket/" + ticketViewDto.getId();
     }
 }

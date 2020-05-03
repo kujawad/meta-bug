@@ -13,56 +13,38 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <base href="/">
-    <link th:href="@{css/main.css}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" th:href="@{css/main.css}" type="text/css">
+    <script th:src="@{js/home.js}"></script>
 </head>
 <body>
 <style type="text/css"></style>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button aria-controls="navbarSupportedContent" aria-expanded="false"
-            aria-label="Toggle navigation"
-            class="navbar-toggler"
-            data-target="#navbarSupportedContent" data-toggle="collapse"
-            type="button">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+<nav class="navbar navbar-light bg-light justify-content-between">
+    <a class="navbar-brand" href="/home">Meta-Bug</a>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a aria-expanded="false" aria-haspopup="true"
-                   class="nav-link dropdown-toggle"
-                   data-toggle="dropdown" href="#" id="navbarDropdown"
-                   role="button">
-                    Dropdown
-                </a>
-                <div aria-labelledby="navbarDropdown" class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
-            </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input aria-label="Search" class="form-control mr-sm-2"
-                   placeholder="Search" type="search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-                Search
-            </button>
-        </form>
+    <div class="form-inline my-2 my-lg-0">
+        <button class="btn btn-success my-2 my-sm-0"
+                style="margin-right: 10px"
+                onclick="redirectTo('/add-ticket')"
+                type="button">+
+        </button>
+        <div class="dropdown dashboardHeaderElements my-2 my-sm-0"
+             style="float:right;">
+            <a aria-expanded="false" aria-haspopup="true"
+               class="btn btn-secondary dropdown-toggle"
+               data-toggle="dropdown" href="#" id="dropdownMenuLink"
+               role="button" th:text="'Welcome, ' + ${username} + '!'">
+                username
+            </a>
+
+            <div aria-labelledby="dropdownMenuLink"
+                 class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="/logout">Logout</a>
+            </div>
+        </div>
     </div>
 </nav>
+
 <div class="container-lg clearfix new-discussion-timeline  p-responsive">
     <div class="repository-content ">
         <div class="js-check-all-container" data-pjax="">

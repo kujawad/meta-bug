@@ -12,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
@@ -29,12 +32,13 @@ public class TicketController {
     }
 
     @GetMapping(value = {"/add-ticket"})
-    public ModelAndView getView() {
+    public ModelAndView getView(final Principal principal) {
         final ModelAndView modelAndView = new ModelAndView();
         final TicketDto ticketDto = new TicketDto();
 
         modelAndView.setViewName("add-ticket");
         modelAndView.addObject("ticketDto", ticketDto);
+        modelAndView.addObject("username", principal.getName());
 
         return modelAndView;
     }
@@ -57,14 +61,16 @@ public class TicketController {
     }
 
     @GetMapping(value = {"/ticket/{id}"})
-    public String viewTicket(@PathVariable final long id, final Model model) {
+    public String viewTicket(@PathVariable final long id, final Model model,
+                             final Principal principal) {
         final Ticket ticket = ticketService.findById(id);
-        if(ticket == null) {
+        if (ticket == null) {
             return "redirect:/home";
         }
 
         final TicketViewDto ticketViewDto = ticketService.toTicketView(ticket);
         model.addAttribute("ticketViewDto", ticketViewDto);
+        model.addAttribute("username", principal.getName());
         return "view-ticket";
     }
 

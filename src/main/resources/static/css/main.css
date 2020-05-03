@@ -1,8 +1,9 @@
 @import "./register.css";
 @import "./index.css";
+@import "./home.css";
 
 body {
-    background: url('../images/loginPageBackground.png') no-repeat;
+    background: url('../images/loginPageBackground.png') repeat;
     background-size: cover;
     font-family: "Montserrat", monospace;
 }

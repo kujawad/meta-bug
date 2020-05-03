@@ -1,5 +1,6 @@
 package com.metabug.web.dto;
 
+import com.metabug.persistence.model.TicketStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,4 +12,5 @@ public class TicketViewDto {
     private String developer;
     private String title;
     private String description;
+    private TicketStatus status;
 }

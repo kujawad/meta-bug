@@ -32,4 +32,8 @@ public class Ticket {
 
     @Column(name = "developer_id")
     private UUID developerId;
+
+    @Column(name = "status")
+    @Enumerated(value = EnumType.STRING)
+    private TicketStatus status;
 }

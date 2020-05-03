@@ -136,3 +136,16 @@ databaseChangeLog:
         - addUniqueConstraint:
             columnNames: email
             tableName: user
+
+  - changeSet:
+      id: 4
+      author: krzysztof-jezewski
+      changes:
+        - addColumn:
+            tableName: ticket
+            columns:
+               - column:
+                    name: status
+                    type: varchar(20)
+                    constraints:
+                      nullable: false

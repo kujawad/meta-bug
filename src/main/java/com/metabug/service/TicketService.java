@@ -2,6 +2,7 @@ package com.metabug.service;
 
 import com.metabug.persistence.dao.TicketRepository;
 import com.metabug.persistence.model.Ticket;
+import com.metabug.persistence.model.TicketStatus;
 import com.metabug.persistence.model.User;
 import com.metabug.web.dto.TicketDto;
 import com.metabug.web.dto.TicketViewDto;
@@ -35,6 +36,7 @@ public class TicketService {
         final Ticket ticket = new Ticket();
         ticket.setTitle(ticketDto.getTitle());
         ticket.setDescription(ticketDto.getDescription());
+        ticket.setStatus(TicketStatus.OPEN);
 
         ticket.setAuthorId(userService.findUserByLogin(principal.getName()).getId());
 
@@ -45,6 +47,12 @@ public class TicketService {
         final Ticket ticket = ticketRepository.findById(id);
         final User user = userService.findUserByLogin(login);
         ticket.setDeveloperId(user.getId());
+        ticket.setStatus(TicketStatus.ONGOING);
+    }
+
+    public void markTicketDone(final long id) {
+        final Ticket ticket = ticketRepository.findById(id);
+        ticket.setStatus(TicketStatus.DONE);
     }
 
     public TicketViewDto toTicketView(final Ticket ticket) {
@@ -59,6 +67,7 @@ public class TicketService {
         ticketViewDto.setDeveloper(developer);
         ticketViewDto.setTitle(ticket.getTitle());
         ticketViewDto.setDescription(ticket.getDescription());
+        ticketViewDto.setStatus(ticket.getStatus());
         return ticketViewDto;
     }
 }

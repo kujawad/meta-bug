@@ -16,7 +16,7 @@ public class EmailService {
 
     private final JavaMailSender javaMailSender;
     private final TemplateEngine templateEngine;
-    @Value("${${spring.profiles.active}.url}")
+    @Value("${${spring.profiles.active}-url}")
     private String ticketUrl;
 
     @Autowired

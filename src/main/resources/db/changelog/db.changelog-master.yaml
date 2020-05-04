@@ -24,7 +24,7 @@ databaseChangeLog:
                     nullable: false
                     unique: true
               - column:
-                  name: name
+                  name: login
                   type: varchar(255)
                   constraints:
                     nullable: false
@@ -131,8 +131,21 @@ databaseChangeLog:
             referencedTableName: user
             constraintName: fk_ticket_developer
         - addUniqueConstraint:
-            columnNames: name
+            columnNames: login
             tableName: user
         - addUniqueConstraint:
             columnNames: email
             tableName: user
+
+  - changeSet:
+      id: 4
+      author: krzysztof-jezewski
+      changes:
+        - addColumn:
+            tableName: ticket
+            columns:
+               - column:
+                    name: status
+                    type: varchar(20)
+                    constraints:
+                      nullable: false

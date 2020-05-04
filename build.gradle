@@ -35,10 +35,13 @@ liquibase {
 }
 
 dependencies {
+    // Spring Boot
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    //implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.session:spring-session-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
 
     // Liquibase
     implementation 'org.liquibase:liquibase-core:3.8.6'
@@ -49,9 +52,20 @@ dependencies {
     liquibaseRuntime 'org.postgresql:postgresql'
     liquibaseRuntime 'org.yaml:snakeyaml:1.25'
 
+    // Lombok
     compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
+
+    // PostgreSQL
+    runtimeOnly 'org.postgresql:postgresql'
+
+    // Passay
+    implementation 'org.passay:passay:1.5.0'
+
+    // Google
+    implementation 'com.google.guava:guava:r09'
+
+    // Tests
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
@@ -61,38 +75,4 @@ dependencies {
 
 test {
     useJUnitPlatform()
-}
-
-task buildDocker(type: Exec) {
-    workingDir "$projectDir/docker-dir/postgres-meta-bug"
-
-    if (!System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
-        commandLine 'bash', '-c',
-                'if [ "$(docker images -q "postgres-meta-bug" 2>/dev/null)" = "" ]; then\
-                    docker build -t postgres-meta-bug .;\
-                 fi'
-    }
-}
-
-task runDocker(type: Exec) {
-
-    if (!System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
-        commandLine 'bash', '-c',
-                'if [ "$(docker ps -aq -f name=postgres-meta-bug)" = "" ]; then\
-                    docker run --name postgres-meta-bug -p 5432:5432 -d postgres-meta-bug;\
-                elif [ "$(docker inspect -f \'{{.State.Running}}\' postgres-meta-bug)" = "false" ]; then\
-                    docker start postgres-meta-bug;\
-                fi'
-    }
-}
-
-task cleanDocker(type: Exec) {
-
-    if (!System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
-        commandLine 'bash', '-c',
-                'if [ "$(docker ps -a -q)" != "" ]; then\
-                    docker stop postgres-meta-bug;\
-                    docker rm postgres-meta-bug;\
-                 fi'
-    }
 }

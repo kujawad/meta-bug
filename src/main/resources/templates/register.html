@@ -2,53 +2,77 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Registration</title>
-	<meta name="viewport" content="width=device-width,initial-scale=1">
-    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/main.css" type="text/css">
+    <title>Registration</title>
+    <meta content="width=device-width,initial-scale=1" name="viewport">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap"
+          rel="stylesheet">
+    <link crossorigin="anonymous"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <base href="/">
+    <link th:href="@{css/main.css}" rel="stylesheet" type="text/css">
 </head>
 <body>
 <style type="text/css"></style>
 
+<div class="alert alert-warning alert-dismissible fade show" role="alert"
+     th:if="${warningMessage != null}">
+    <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <span th:text="${warningMessage}">message</span>
+</div>
+
 <div class="registerPageTitleArea">
-	<h1 class="registerPageTitle">Meta-Bug</h1>
+    <h1 class="registerPageTitle">Meta-Bug</h1>
 </div>
-<div class="registerArea">
-	<div style="padding:20px">
-		<div class="registerData">
-			<div class="registerLabel">Login:</div>
-			<div class="registerLabelInput">
-				<input id="login" type="text">
-			</div>
-		</div>
-		<div class="registerData">
-			<div class="registerLabel">E-mail:</div>
-			<div class="registerLabelInput">
-				<input id="email" type="text">
-			</div>
-		</div>
-		<div class="registerData">
-			<div class="registerLabel">Password:</div>
-			<div class="registerLabelInput">
-				<input id="password" type="password">
-			</div>
-		</div>
-		<div class="registerData">
-			<div class="registerLabel">Confirm password:</div>
-			<div class="registerLabelInput">
-				<input id="confirmPassword" type="password">
-			</div>
-		</div>
-		<div class="registerDataSubmit">
-		<input class="button" type="submit" value="Register">
-		</div>
-		<form method="get" th:action="@{/}">
-            <div class="registerDataHref">
-                <a th:href="@{/}">Or log in</a>
+
+<form autocomplete="off" enctype="utf8" method="post"
+      role="form" th:action="@{/register}" th:object="${userDto}">
+    <div class="registerArea">
+        <div style="padding:20px">
+            <div class="registerData">
+                <div class="registerLabel">Login:</div>
+                <div class="registerLabelInput">
+                    <input class="form-control mr-sm-2" id="login"
+                           th:field="*{login}"
+                           type="text">
+                </div>
             </div>
-        </form>
-	</div>
-</div>
+            <div class="registerData">
+                <div class="registerLabel">E-mail:</div>
+                <div class="registerLabelInput">
+                    <input class="form-control mr-sm-2" id="email"
+                           th:field="*{email}" type="text">
+                </div>
+            </div>
+            <div class="registerData">
+                <div class="registerLabel">Password:</div>
+                <div class="registerLabelInput">
+                    <input class="form-control mr-sm-2" id="password"
+                           th:field="*{password}"
+                           type="password">
+                </div>
+            </div>
+            <div class="registerData">
+                <div class="registerLabel">Confirm password:</div>
+                <div class="registerLabelInput">
+                    <input class="form-control mr-sm-2" id="matchingPassword"
+                           th:field="*{matchingPassword}"
+                           type="password">
+                </div>
+            </div>
+            <div class="registerDataSubmit">
+                <input class="button" type="submit" value="Register">
+            </div>
+            <div class="registerDataHref">
+                <a th:href="@{/}">or Log in.</a>
+            </div>
+        </div>
+    </div>
+</form>
 </body>
 </html>

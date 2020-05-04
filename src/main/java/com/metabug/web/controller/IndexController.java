@@ -12,7 +12,7 @@ public class IndexController {
     @GetMapping(value = {"/login", ""})
     public ModelAndView index(final Principal principal) {
         final ModelAndView modelAndView = new ModelAndView();
-        if(principal != null) {
+        if (principal != null) {
             modelAndView.setViewName("redirect:/home");
         } else {
             modelAndView.setViewName("index");

@@ -3,7 +3,10 @@ package com.metabug.web.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.metabug.persistence.model.Ticket;
+import com.metabug.persistence.model.TicketStatus;
+import com.metabug.persistence.model.User;
 import com.metabug.service.TicketService;
+import com.metabug.service.UserService;
 import com.metabug.web.dto.TicketDto;
 import com.metabug.web.dto.TicketViewDto;
 import org.slf4j.Logger;
@@ -25,10 +28,12 @@ public class TicketController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
     private final TicketService ticketService;
+    private final UserService userService;
 
     @Autowired
-    public TicketController(final TicketService ticketService) {
+    public TicketController(final TicketService ticketService, final UserService userService) {
         this.ticketService = ticketService;
+        this.userService = userService;
     }
 
     @GetMapping(value = {"/add-ticket"})
@@ -68,13 +73,20 @@ public class TicketController {
             return "redirect:/home";
         }
 
+        final User user = userService.findUserByLogin(principal.getName());
         final TicketViewDto ticketViewDto = ticketService.toTicketView(ticket);
         model.addAttribute("ticketViewDto", ticketViewDto);
         model.addAttribute("username", principal.getName());
-        return "view-ticket";
+        if(ticket.getStatus() == TicketStatus.OPEN) {
+            return "view-ticket-open";
+        } else if (ticket.getStatus() == TicketStatus.ONGOING && ticket.getDeveloperId().equals(user.getId())) {
+            return "view-ticket-ongoing";
+        } else {
+            return "view-ticket-done";
+        }
     }
 
-    @PostMapping(value = {"/ticket/{id}"}, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PostMapping(value = {"/ticket/{id}"}, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, params = "open")
     public String assignTicket(final TicketViewDto ticketViewDto, final Principal principal) {
         final Ticket ticket = ticketService.findById(ticketViewDto.getId());
         if (ticket.getDeveloperId() == null) {
@@ -82,5 +94,12 @@ public class TicketController {
             LOGGER.info("Assigned ticket: " + ticket.getId() + " to " + principal.getName());
         }
         return "redirect:/ticket/" + ticketViewDto.getId();
+    }
+
+    @PostMapping(value = {"/ticket/{id}"}, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, params = "ongoing")
+    public String markTicketDone(final TicketViewDto ticketViewDto) {
+        ticketService.markTicketDone(ticketViewDto.getId());
+        LOGGER.info("Marked ticket: " + ticketViewDto.getId() + " as " + TicketStatus.DONE);
+        return "redirect:/home";
     }
 }

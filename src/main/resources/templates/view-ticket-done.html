@@ -87,6 +87,17 @@
                                                autofocus="autofocus"
                                                disabled="disabled"
                                                class="form-control input-lg input-block input-contrast required title js-session-resumable js-quick-submit"
+                                               id="status"
+                                               name="issue[status]"
+                                               th:field="*{status}"
+                                               type="text">
+                                    </div>
+                                    <div class="discussion-topic-header p-0 p-md-2">
+                                        <input aria-label="Title"
+                                               autocomplete="off"
+                                               autofocus="autofocus"
+                                               disabled="disabled"
+                                               class="form-control input-lg input-block input-contrast required title js-session-resumable js-quick-submit"
                                                id="issue_title"
                                                name="issue[title]"
                                                required="required"
@@ -103,12 +114,6 @@
                                                         required="required"
                                                         disabled="disabled"
                                                         th:field="*{description}"></textarea>
-                                    </div>
-                                    <div class="flex-items-center flex-justify-end mx-2 mb-2 px-0 d-none d-md-flex">
-                                        <button class="btn btn-primary"
-                                                type="submit">
-                                            Assign to me
-                                        </button>
                                     </div>
                                 </div>
                             </div>

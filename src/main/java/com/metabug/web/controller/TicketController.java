@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.metabug.persistence.model.Ticket;
 import com.metabug.persistence.model.TicketStatus;
 import com.metabug.persistence.model.User;
+import com.metabug.service.EmailService;
 import com.metabug.service.TicketService;
 import com.metabug.service.UserService;
 import com.metabug.web.dto.TicketDto;
@@ -29,11 +30,15 @@ public class TicketController {
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
     private final TicketService ticketService;
     private final UserService userService;
+    private final EmailService emailService;
 
     @Autowired
-    public TicketController(final TicketService ticketService, final UserService userService) {
+    public TicketController(final TicketService ticketService,
+                            final UserService userService,
+                            final EmailService emailService) {
         this.ticketService = ticketService;
         this.userService = userService;
+        this.emailService = emailService;
     }
 
     @GetMapping(value = {"/add-ticket"})
@@ -77,9 +82,10 @@ public class TicketController {
         final TicketViewDto ticketViewDto = ticketService.toTicketView(ticket);
         model.addAttribute("ticketViewDto", ticketViewDto);
         model.addAttribute("username", principal.getName());
-        if(ticket.getStatus() == TicketStatus.OPEN) {
+        if (ticket.getStatus() == TicketStatus.OPEN) {
             return "view-ticket-open";
-        } else if (ticket.getStatus() == TicketStatus.ONGOING && ticket.getDeveloperId().equals(user.getId())) {
+        } else if (ticket.getStatus() == TicketStatus.ONGOING &&
+                ticket.getDeveloperId().equals(user.getId())) {
             return "view-ticket-ongoing";
         } else {
             return "view-ticket-done";
@@ -88,18 +94,41 @@ public class TicketController {
 
     @PostMapping(value = {"/ticket/{id}"}, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, params = "open")
     public String assignTicket(final TicketViewDto ticketViewDto, final Principal principal) {
-        final Ticket ticket = ticketService.findById(ticketViewDto.getId());
+        final long ticketId = ticketViewDto.getId();
+        final String developer = principal.getName();
+
+        final Ticket ticket = ticketService.findById(ticketId);
+
         if (ticket.getDeveloperId() == null) {
-            ticketService.assignTicket(ticket.getId(), principal.getName());
-            LOGGER.info("Assigned ticket: " + ticket.getId() + " to " + principal.getName());
+            ticketService.assignTicket(ticketId, developer);
+
+            emailService.send(
+                    ticketId,
+                    ticket.getTitle(),
+                    TicketStatus.ONGOING.name(),
+                    developer,
+                    userService.findUserById(ticket.getAuthorId()).getEmail()
+            );
+            LOGGER.info("Assigned ticket: " + ticketId + " to " + developer);
         }
-        return "redirect:/ticket/" + ticketViewDto.getId();
+        return "redirect:/ticket/" + ticketId;
     }
 
     @PostMapping(value = {"/ticket/{id}"}, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, params = "ongoing")
     public String markTicketDone(final TicketViewDto ticketViewDto) {
-        ticketService.markTicketDone(ticketViewDto.getId());
-        LOGGER.info("Marked ticket: " + ticketViewDto.getId() + " as " + TicketStatus.DONE);
+        final long ticketId = ticketViewDto.getId();
+        ticketService.markTicketDone(ticketId);
+
+        final Ticket ticket = ticketService.findById(ticketId);
+        emailService.send(
+                ticketId,
+                ticket.getTitle(),
+                TicketStatus.DONE.name(),
+                userService.findUserById(ticket.getDeveloperId()).getLogin(),
+                userService.findUserById(ticket.getAuthorId()).getEmail()
+        );
+
+        LOGGER.info("Marked ticket: " + ticketId + " as " + TicketStatus.DONE);
         return "redirect:/home";
     }
 }

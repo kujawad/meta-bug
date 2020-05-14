@@ -55,6 +55,12 @@ public class TicketService {
         ticket.setStatus(TicketStatus.DONE);
     }
 
+    public void unassignTicket(final long id) {
+        final Ticket ticket = ticketRepository.findById(id);
+        ticket.setDeveloperId(null);
+        ticket.setStatus(TicketStatus.OPEN);
+    }
+
     public TicketViewDto toTicketView(final Ticket ticket) {
         final TicketViewDto ticketViewDto = new TicketViewDto();
         final String author = userService.findUserById(ticket.getAuthorId()).getLogin();

@@ -64,6 +64,7 @@
                             <div class="timeline-comment-wrapper timeline-new-comment composer composer-responsive">
                                 <div class="timeline-comment">
                                     <div class="discussion p-0 p-md-2">
+                                        <div>Author:</div>
                                         <input aria-label="Title"
                                                autocomplete="off"
                                                autofocus="autofocus"
@@ -76,6 +77,7 @@
                                                type="text">
                                     </div>
                                     <div class="discussion-topic-header p-0 p-md-2">
+                                        <div>Developer:</div>
                                         <input aria-label="Title"
                                                autocomplete="off"
                                                autofocus="autofocus"
@@ -87,6 +89,7 @@
                                                type="text">
                                     </div>
                                     <div class="discussion-topic-header p-0 p-md-2">
+                                        <div>Status:</div>
                                         <input aria-label="Title"
                                                autocomplete="off"
                                                autofocus="autofocus"
@@ -98,6 +101,7 @@
                                                type="text">
                                     </div>
                                     <div class="discussion-topic-header p-0 p-md-2">
+                                        <div>Title:</div>
                                         <input aria-label="Title"
                                                autocomplete="off"
                                                autofocus="autofocus"
@@ -111,19 +115,25 @@
                                     </div>
                                     <div class="write-content js-write-bucket tooltipped tooltipped-ne tooltipped-no-delay tooltipped-align-left-1 hide-reaction-suggestion upload-enabled mx-0 mt-2 mb-2 mx-md-2 hx_sm-hide-drag-drop js-reaction-suggestion"
                                          data-reaction-markup="Would you like to leave a reaction instead?">
-                                                <textarea
-                                                        aria-label="Comment body"
-                                                        class="form-control input-contrast comment-form-textarea js-comment-field js-paste-markdown js-task-list-field js-quick-submit js-size-to-fit js-session-resumable js-saved-reply-shortcut-comment-field"
-                                                        id="issue_body"
-                                                        name="issue[body]"
-                                                        required="required"
-                                                        disabled="disabled"
-                                                        th:field="*{description}"></textarea>
+                                        <div>Description:</div>
+                                        <textarea
+                                                aria-label="Comment body"
+                                                class="form-control input-contrast comment-form-textarea js-comment-field js-paste-markdown js-task-list-field js-quick-submit js-size-to-fit js-session-resumable js-saved-reply-shortcut-comment-field"
+                                                id="issue_body"
+                                                name="issue[body]"
+                                                required="required"
+                                                disabled="disabled"
+                                                th:field="*{description}"></textarea>
                                     </div>
                                     <div class="flex-items-center flex-justify-end mx-2 mb-2 px-0 d-none d-md-flex">
-                                        <button class="btn btn-primary"
+                                        <button class="btn btn-secondary"
                                                 type="submit"
-                                                name="open">
+                                                name="back">
+                                            Back
+                                        </button>
+                                        <button class="btn btn-success"
+                                                type="submit"
+                                                name="assign">
                                             Assign to me
                                         </button>
                                     </div>

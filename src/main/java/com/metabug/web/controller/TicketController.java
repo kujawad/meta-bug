@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
+import java.util.UUID;
 
 @Controller
 public class TicketController {
@@ -92,7 +93,7 @@ public class TicketController {
         }
     }
 
-    @PostMapping(value = {"/ticket/{id}"}, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, params = "open")
+    @PostMapping(value = {"/ticket/{id}"}, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, params = "assign")
     public String assignTicket(final TicketViewDto ticketViewDto, final Principal principal) {
         final long ticketId = ticketViewDto.getId();
         final String developer = principal.getName();
@@ -114,7 +115,7 @@ public class TicketController {
         return "redirect:/ticket/" + ticketId;
     }
 
-    @PostMapping(value = {"/ticket/{id}"}, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, params = "ongoing")
+    @PostMapping(value = {"/ticket/{id}"}, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, params = "markDone")
     public String markTicketDone(final TicketViewDto ticketViewDto) {
         final long ticketId = ticketViewDto.getId();
         ticketService.markTicketDone(ticketId);
@@ -129,6 +130,31 @@ public class TicketController {
         );
 
         LOGGER.info("Marked ticket: " + ticketId + " as " + TicketStatus.DONE);
+        return "redirect:/home";
+    }
+
+    @PostMapping(value = {"/ticket/{id}"}, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, params = "unassign")
+    public String unassignTicket(final TicketViewDto ticketViewDto) {
+        final long ticketId = ticketViewDto.getId();
+        final Ticket ticket = ticketService.findById(ticketId);
+        final UUID developerId = ticket.getDeveloperId();
+
+        ticketService.unassignTicket(ticketId);
+
+        emailService.send(
+                ticketId,
+                ticket.getTitle(),
+                TicketStatus.OPEN.name(),
+                userService.findUserById(developerId).getLogin(),
+                userService.findUserById(ticket.getAuthorId()).getEmail()
+        );
+
+        LOGGER.info("Unassigned ticket: " + ticketId);
+        return "redirect:/ticket/" + ticketId;
+    }
+
+    @PostMapping(value = {"/ticket/{id}"}, params = "back")
+    public String redirectHome() {
         return "redirect:/home";
     }
 }

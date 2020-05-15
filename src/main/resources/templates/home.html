@@ -53,19 +53,110 @@
 </nav>
 
 <div class="dashboardMainBody" id="mainBody">
-    <div class="dashboardTask" id="allTasksId">
+    <div class="dashboardTask" id="allTasksId" style="overflow-x: scroll">
         <div class="dashboardTaskTitle">
             All tasks
         </div>
+        <div th:if="${allTasksList.isEmpty() != true}">
+            <div th:each="ticket : ${allTasksList}">
+                <div class="position-relative flex-auto overflow-auto
+        px-2 pb-6 mb-6 mb-sm-0 pb-sm-2">
+                    <article
+                            class="position-relative rounded-2 box-shadow bg-white
+                    my-2 mx-0 border ws-normal"
+                            tabindex="0">
+                        <div class="d-flex flex-row">
+                            <div class="flex-auto min-width-0 position-relative">
+                                <div class="pl-5 p-2 position-relative">
+                                    <a class="h5 d-block lh-condensed mb-1 mr-5"
+                                       th:href="@{/ticket/{id}(id=${ticket.getId()})}"
+                                       th:text="${ticket.getTitle()}">
+                                        title</a>
+                                    <small class="text-gray d-block ">
+                                        <span th:text="'#' + ${ticket.getId()}">id</span>
+                                        created by <span
+                                            th:text="${userService
+                                            .findUserById(ticket.getAuthorId())
+                                            .getLogin()}">authId</span>
+                                        <span th:text="', status: ' + ${ticket.getStatus().toString()}">
+                                            status
+                                        </span>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="dashboardTask" id="unassignedTasksId">
+    <div class="dashboardTask" id="unassignedTasksId"
+         style="overflow-x: scroll">
         <div class="dashboardTaskTitle">
             Unassigned tasks
         </div>
+        <div th:if="${unassignedTasksList.isEmpty() != true}">
+            <div th:each="ticket : ${unassignedTasksList}">
+                <div class="position-relative flex-auto overflow-auto
+        px-2 pb-6 mb-6 mb-sm-0 pb-sm-2">
+                    <article
+                            class="position-relative rounded-2 box-shadow bg-white
+                    my-2 mx-0 border ws-normal"
+                            tabindex="0">
+                        <div class="d-flex flex-row">
+                            <div class="flex-auto min-width-0 position-relative">
+                                <div class="pl-5 p-2 position-relative">
+                                    <a class="h5 d-block lh-condensed mb-1 mr-5"
+                                       th:href="@{/ticket/{id}(id=${ticket.getId()})}"
+                                       th:text="${ticket.getTitle()}">
+                                        title</a>
+                                    <small class="text-gray d-block ">
+                                        <span th:text="'#' + ${ticket.getId()}">id</span>
+                                        created by <span
+                                            th:text="${userService
+                                            .findUserById(ticket.getAuthorId())
+                                            .getLogin()}">authId</span>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="dashboardTask" id="myTasksId">
+    <div class="dashboardTask" id="myTasksId" style="overflow-x: scroll">
         <div class="dashboardTaskTitle">
             My tasks
+        </div>
+        <div th:if="${myTasksList.isEmpty() != true}">
+            <div th:each="ticket : ${myTasksList}">
+                <div class="position-relative flex-auto overflow-auto
+        px-2 pb-6 mb-6 mb-sm-0 pb-sm-2">
+                    <article
+                            class="position-relative rounded-2 box-shadow bg-white
+                    my-2 mx-0 border ws-normal"
+                            tabindex="0">
+                        <div class="d-flex flex-row">
+                            <div class="flex-auto min-width-0 position-relative">
+                                <div class="pl-5 p-2 position-relative">
+                                    <a class="h5 d-block lh-condensed mb-1 mr-5"
+                                       th:href="@{/ticket/{id}(id=${ticket.getId()})}"
+                                       th:text="${ticket.getTitle()}">
+                                        title</a>
+                                    <small class="text-gray d-block ">
+                                        <span th:text="'#' + ${ticket.getId()}">id</span>
+                                        created by <span
+                                            th:text="${userService
+                                            .findUserById(ticket.getAuthorId())
+                                            .getLogin()}">authId</span>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
         </div>
     </div>
 </div>

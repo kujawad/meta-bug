@@ -11,11 +11,12 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class TicketService {
-    private TicketRepository ticketRepository;
-    private UserService userService;
+    private final TicketRepository ticketRepository;
+    private final UserService userService;
 
     @Autowired
     public TicketService(final TicketRepository ticketRepository,
@@ -30,6 +31,14 @@ public class TicketService {
 
     public Ticket findById(final long id) {
         return ticketRepository.findById(id);
+    }
+
+    public List<Ticket> findAllByStatus(final TicketStatus status) {
+        return ticketRepository.findAllByStatus(status);
+    }
+
+    public List<Ticket> findAllByDeveloperIdAndStatus(final UUID developerId, final TicketStatus ticketStatus) {
+        return ticketRepository.findAllByDeveloperIdAndStatus(developerId, ticketStatus);
     }
 
     public void save(final TicketDto ticketDto, final Principal principal) {
@@ -65,7 +74,7 @@ public class TicketService {
         final TicketViewDto ticketViewDto = new TicketViewDto();
         final String author = userService.findUserById(ticket.getAuthorId()).getLogin();
         String developer = null;
-        if(ticket.getDeveloperId() != null) {
+        if (ticket.getDeveloperId() != null) {
             developer = userService.findUserById(ticket.getDeveloperId()).getLogin();
         }
         ticketViewDto.setId(ticket.getId());

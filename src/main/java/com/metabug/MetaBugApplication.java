@@ -1,12 +1,13 @@
 package com.metabug;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 
 @SpringBootApplication
 public class MetaBugApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MetaBugApplication.class, args);
+        SpringApplicationBuilder builder = new SpringApplicationBuilder(MetaBugApplication.class);
+        builder.headless(false).run(args);
     }
 }

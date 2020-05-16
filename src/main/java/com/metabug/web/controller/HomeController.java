@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -44,19 +45,28 @@ public class HomeController {
     }
 
     private List<Ticket> getMyTasks(final String login) {
-        return Lists.reverse(
-                ticketService.findAllByDeveloperIdAndStatus(
-                        userService.findUserByLogin(login).getId(),
-                        TicketStatus.ONGOING
-                )
-        );
+        final List<Ticket> list = ticketService.findAllByDeveloperIdAndStatus(
+                userService.findUserByLogin(login).getId(),
+                TicketStatus.ONGOING);
+        if (list != null) {
+            list.sort(Comparator.comparing(Ticket::getId));
+        }
+        return Lists.reverse(list);
     }
 
     private List<Ticket> getUnassignedTasks() {
-        return Lists.reverse(ticketService.findAllByStatus(TicketStatus.OPEN));
+        final List<Ticket> list = ticketService.findAllByStatus(TicketStatus.OPEN);
+        if (list != null) {
+            list.sort(Comparator.comparing(Ticket::getId));
+        }
+        return Lists.reverse(list);
     }
 
     private List<Ticket> getAllTasks() {
-        return Lists.reverse(ticketService.findAll());
+        final List<Ticket> list = ticketService.findAll();
+        if (list != null) {
+            list.sort(Comparator.comparing(Ticket::getId));
+        }
+        return Lists.reverse(list);
     }
 }

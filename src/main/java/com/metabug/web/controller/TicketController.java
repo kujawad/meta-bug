@@ -1,7 +1,5 @@
 package com.metabug.web.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.metabug.persistence.model.Ticket;
 import com.metabug.persistence.model.TicketStatus;
 import com.metabug.persistence.model.User;
@@ -16,12 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.swing.*;
+import java.io.File;
 import java.security.Principal;
 import java.util.UUID;
 
@@ -62,13 +59,6 @@ public class TicketController {
         LOGGER.info("Saved ticket: " + ticketDto.toString());
         model.addAttribute("message", "Successfully added ticket!");
         return "redirect:/home";
-    }
-
-    @ResponseBody
-    @GetMapping(value = {"/get-tickets"}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public String getTickets() throws JsonProcessingException {
-        final ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.writeValueAsString(ticketService.findAll());
     }
 
     @GetMapping(value = {"/ticket/{id}"})
@@ -150,6 +140,36 @@ public class TicketController {
         );
 
         LOGGER.info("Unassigned ticket: " + ticketId);
+        return "redirect:/ticket/" + ticketId;
+    }
+
+    @PostMapping(value = {"/ticket/{id}"}, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, params = "sendAttachment")
+    public String sendAttachment(final TicketViewDto ticketViewDto) {
+        final long ticketId = ticketViewDto.getId();
+        final Ticket ticket = ticketService.findById(ticketId);
+        final UUID developerId = ticket.getDeveloperId();
+
+        final JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+        final JDialog jDialog = new JDialog();
+        jDialog.setAlwaysOnTop(true);
+
+        int result = fileChooser.showOpenDialog(jDialog);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            final File file = fileChooser.getSelectedFile();
+
+            emailService.sendAttachment(
+                    ticketId,
+                    ticket.getTitle(),
+                    userService.findUserById(developerId).getLogin(),
+                    userService.findUserById(ticket.getAuthorId()).getEmail(),
+                    file
+            );
+            LOGGER.info("Attachment {} sent", file.getName());
+        } else {
+            LOGGER.info("Attachment not sent");
+        }
+
         return "redirect:/ticket/" + ticketId;
     }
 

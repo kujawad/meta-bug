@@ -15,10 +15,9 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.swing.*;
-import java.io.File;
 import java.security.Principal;
 import java.util.UUID;
 
@@ -143,21 +142,14 @@ public class TicketController {
         return "redirect:/ticket/" + ticketId;
     }
 
-    @PostMapping(value = {"/ticket/{id}"}, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, params = "sendAttachment")
-    public String sendAttachment(final TicketViewDto ticketViewDto) {
+    @PostMapping(value = {"/ticket/{id}"}, consumes = {"multipart/form-data"})
+    public String uploadFile(@RequestParam(name = "file")
+                                         final MultipartFile file, final TicketViewDto ticketViewDto) {
         final long ticketId = ticketViewDto.getId();
         final Ticket ticket = ticketService.findById(ticketId);
         final UUID developerId = ticket.getDeveloperId();
 
-        final JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-        final JDialog jDialog = new JDialog();
-        jDialog.setAlwaysOnTop(true);
-
-        int result = fileChooser.showOpenDialog(jDialog);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            final File file = fileChooser.getSelectedFile();
-
+        if (!file.isEmpty()) {
             emailService.sendAttachment(
                     ticketId,
                     ticket.getTitle(),
@@ -165,9 +157,9 @@ public class TicketController {
                     userService.findUserById(ticket.getAuthorId()).getEmail(),
                     file
             );
-            LOGGER.info("Attachment {} sent", file.getName());
+            LOGGER.info("File {} sent successfully", file.getOriginalFilename());
         } else {
-            LOGGER.info("Attachment not sent");
+            LOGGER.info("File not sent");
         }
 
         return "redirect:/ticket/" + ticketId;

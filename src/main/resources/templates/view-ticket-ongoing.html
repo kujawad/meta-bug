@@ -126,11 +126,6 @@
                                                 th:field="*{description}"></textarea>
                                     </div>
                                     <div class="flex-items-center flex-justify-end mx-2 mb-2 px-0 d-none d-md-flex">
-                                        <button class="btn btn-primary"
-                                                type="submit"
-                                                name="sendAttachment">
-                                            Send attachment
-                                        </button>
                                     </div>
                                     <div class="flex-items-center flex-justify-end mx-2 mb-2 px-0 d-none d-md-flex">
                                         <button class="btn btn-secondary"
@@ -154,6 +149,10 @@
                         </div>
                     </div>
                 </div>
+            </form>
+            <form method="POST" enctype="multipart/form-data">
+                <input type="file" name="file">
+                <input type="submit" value="Send">
             </form>
         </div>
     </div>

@@ -5,18 +5,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
+import javax.mail.Part;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import java.io.File;
+import java.io.IOException;
 
 @Service
 public class EmailService {
@@ -58,7 +57,7 @@ public class EmailService {
 
     public void sendAttachment(final long ticketId, final String ticketTitle,
                                final String developer, final String recipient,
-                               final File file) {
+                               final MultipartFile file) {
         final Context context = new Context();
         context.setVariable("header", "[" + developer + "] sent an attachment");
         context.setVariable("title", "Attachment to issue [" +
@@ -73,11 +72,11 @@ public class EmailService {
             final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
             helper.setTo(recipient);
 
-            final DataSource source = new FileDataSource(file.getAbsolutePath());
             final Multipart multipart = new MimeMultipart();
             final MimeBodyPart attachmentBodyPart = new MimeBodyPart();
-            attachmentBodyPart.setDataHandler(new DataHandler(source));
-            attachmentBodyPart.setFileName(file.getName());
+            attachmentBodyPart.setContent(file.getBytes(), file.getContentType());
+            attachmentBodyPart.setFileName(file.getOriginalFilename());
+            attachmentBodyPart.setDisposition(Part.ATTACHMENT);
             multipart.addBodyPart(attachmentBodyPart);
 
             final MimeBodyPart htmlBodyPart = new MimeBodyPart();
@@ -87,6 +86,8 @@ public class EmailService {
             mimeMessage.setContent(multipart);
             javaMailSender.send(mimeMessage);
         } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

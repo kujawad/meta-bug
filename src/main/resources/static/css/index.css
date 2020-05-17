@@ -1,6 +1,5 @@
 .loginArea {
     width: 400px;
-    height: 250px;
     background: #F2F3F4;
     border-radius: 25px;
     box-shadow: 5px 5px 10px #888888;
@@ -40,7 +39,6 @@
 }
 
 .loginDataHref {
-    float: left;
     width: 100%;
     text-align: left;
     margin-top: 10px;

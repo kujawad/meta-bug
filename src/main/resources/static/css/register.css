@@ -1,6 +1,5 @@
 .registerArea{
     width: 400px;
-    height: 400px;
     background: #F2F3F4;
     border-radius: 25px;
     box-shadow: 5px 5px 10px #888888;
@@ -32,7 +31,6 @@
 }
 
 .registerDataHref{
-	float:left;
 	width:100%;
 	text-align:left;
 	margin-top:10px;

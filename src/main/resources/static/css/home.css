@@ -39,3 +39,9 @@
     background: dodgerblue;
     height: 50px;
 }
+
+.taskTitles a{
+	text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 260px;
+}

@@ -53,11 +53,11 @@
 </nav>
 
 <div class="dashboardMainBody" id="mainBody">
-    <div class="dashboardTask" id="allTasksId" style="overflow-x: scroll">
+    <div class="dashboardTask" id="allTasksId">
         <div class="dashboardTaskTitle">
             All tasks
         </div>
-        <div th:if="${allTasksList.isEmpty() != true}">
+        <div th:if="${allTasksList.isEmpty() != true}" style="overflow-y: scroll;height: 93%">
             <div th:each="ticket : ${allTasksList}">
                 <div class="position-relative flex-auto overflow-auto
         px-2 pb-6 mb-6 mb-sm-0 pb-sm-2">
@@ -67,7 +67,7 @@
                             tabindex="0">
                         <div class="d-flex flex-row">
                             <div class="flex-auto min-width-0 position-relative">
-                                <div class="pl-5 p-2 position-relative">
+                                <div class="pl-5 p-2 position-relative taskTitles">
                                     <a class="h5 d-block lh-condensed mb-1 mr-5"
                                        th:href="@{/ticket/{id}(id=${ticket.getId()})}"
                                        th:text="${ticket.getTitle()}">
@@ -105,7 +105,7 @@
                             tabindex="0">
                         <div class="d-flex flex-row">
                             <div class="flex-auto min-width-0 position-relative">
-                                <div class="pl-5 p-2 position-relative">
+                                <div class="pl-5 p-2 position-relative taskTitles">
                                     <a class="h5 d-block lh-condensed mb-1 mr-5"
                                        th:href="@{/ticket/{id}(id=${ticket.getId()})}"
                                        th:text="${ticket.getTitle()}">
@@ -139,7 +139,7 @@
                             tabindex="0">
                         <div class="d-flex flex-row">
                             <div class="flex-auto min-width-0 position-relative">
-                                <div class="pl-5 p-2 position-relative">
+                                <div class="pl-5 p-2 position-relative taskTitles">
                                     <a class="h5 d-block lh-condensed mb-1 mr-5"
                                        th:href="@{/ticket/{id}(id=${ticket.getId()})}"
                                        th:text="${ticket.getTitle()}">

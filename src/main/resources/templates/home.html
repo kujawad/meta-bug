@@ -90,12 +90,11 @@
             </div>
         </div>
     </div>
-    <div class="dashboardTask" id="unassignedTasksId"
-         style="overflow-x: scroll">
+    <div class="dashboardTask" id="unassignedTasksId">
         <div class="dashboardTaskTitle">
             Unassigned tasks
         </div>
-        <div th:if="${unassignedTasksList.isEmpty() != true}">
+        <div th:if="${unassignedTasksList.isEmpty() != true}" style="overflow-y: scroll;height: 93%">
             <div th:each="ticket : ${unassignedTasksList}">
                 <div class="position-relative flex-auto overflow-auto
         px-2 pb-6 mb-6 mb-sm-0 pb-sm-2">
@@ -125,11 +124,11 @@
             </div>
         </div>
     </div>
-    <div class="dashboardTask" id="myTasksId" style="overflow-x: scroll">
+    <div class="dashboardTask" id="myTasksId">
         <div class="dashboardTaskTitle">
             My ongoing tasks
         </div>
-        <div th:if="${myTasksList.isEmpty() != true}">
+        <div th:if="${myTasksList.isEmpty() != true}" style="overflow-y: scroll;height: 93%">
             <div th:each="ticket : ${myTasksList}">
                 <div class="position-relative flex-auto overflow-auto
         px-2 pb-6 mb-6 mb-sm-0 pb-sm-2">

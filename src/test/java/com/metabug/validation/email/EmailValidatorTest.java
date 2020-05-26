@@ -1,4 +1,4 @@
-package com.metabug;
+package com.metabug.validation.email;
 
 import com.metabug.validation.email.EmailValidator;
 import org.junit.jupiter.params.ParameterizedTest;

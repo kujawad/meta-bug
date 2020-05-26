@@ -1,4 +1,4 @@
-package com.metabug;
+package com.metabug.validation.password;
 
 import com.metabug.validation.password.PasswordMatchesValidator;
 import com.metabug.web.dto.UserDto;
